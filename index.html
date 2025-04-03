@@ -199,16 +199,38 @@
       "@type": "Product",
       "name": "Delux Platform Membership",
       "description": "Earn money by completing simple tasks on Delux Platform",
+      "image": "https://deluxplatform.com/delux-membership-card.jpg",
       "brand": {
         "@type": "Brand",
-        "name": "Delux"
+        "name": "Delux",
+        "logo": "https://deluxplatform.com/delux_logo.png"
       },
       "offers": {
         "@type": "Offer",
         "url": "https://linktr.ee/delux_platform.com",
         "priceCurrency": "EUR",
         "price": "7",
-        "description": "Minimum withdrawal amount is 7 euros"
+        "description": "Minimum withdrawal amount is 7 euros",
+        "availability": "https://schema.org/InStock",
+        "shippingDetails": {
+          "@type": "OfferShippingDetails",
+          "shippingRate": {
+            "@type": "MonetaryAmount",
+            "value": "0",
+            "currency": "EUR"
+          },
+          "shippingDestination": {
+            "@type": "DefinedRegion",
+            "addressCountry": ["KE", "GH", "CM", "UG", "ZA", "SL", "NG", "CI", "TG", "BJ", "ML", "BF", "GW", "SN", "NE", "GM", "ZW"]
+          }
+        },
+        "hasMerchantReturnPolicy": {
+          "@type": "MerchantReturnPolicy",
+          "returnPolicyCategory": "https://schema.org/MerchantReturnFiniteReturnWindow",
+          "merchantReturnDays": 30,
+          "returnMethod": "https://schema.org/ReturnByMail",
+          "returnFees": "https://schema.org/FreeReturn"
+        }
       },
       "review": {
         "@type": "Review",
@@ -228,9 +250,11 @@
       "@type": "Product",
       "name": "Delux Platform Membership",
       "description": "Earn money in EUR, USD or cryptocurrency by completing simple tasks on Delux Platform",
+      "image": "https://deluxplatform.com/delux-digital-membership.jpg",
       "brand": {
         "@type": "Brand",
-        "name": "Delux"
+        "name": "Delux",
+        "logo": "https://deluxplatform.com/delux_logo.png"
       },
       "offers": {
         "@type": "Offer",
@@ -243,7 +267,27 @@
           "Ivory Coast","Togo","Benin","Mali","Burkina Faso","Guinea-Bissau","Senegal",
           "Niger","Gambia","Zimbabwe"
         ],
-        "availableDeliveryMethod": ["Bank Transfer", "Mobile Money", "Cryptocurrency"]
+        "availableDeliveryMethod": ["Bank Transfer", "Mobile Money", "Cryptocurrency"],
+        "availability": "https://schema.org/InStock",
+        "shippingDetails": {
+          "@type": "OfferShippingDetails",
+          "shippingRate": {
+            "@type": "MonetaryAmount",
+            "value": "0",
+            "currency": "EUR"
+          },
+          "shippingDestination": {
+            "@type": "DefinedRegion",
+            "addressCountry": ["KE", "GH", "CM", "UG", "ZA", "SL", "NG", "CI", "TG", "BJ", "ML", "BF", "GW", "SN", "NE", "GM", "ZW"]
+          }
+        },
+        "hasMerchantReturnPolicy": {
+          "@type": "MerchantReturnPolicy",
+          "returnPolicyCategory": "https://schema.org/MerchantReturnFiniteReturnWindow",
+          "merchantReturnDays": 30,
+          "returnMethod": "https://schema.org/ReturnByMail",
+          "returnFees": "https://schema.org/FreeReturn"
+        }
       },
       "review": {
         "@type": "Review",
@@ -257,7 +301,7 @@
           "name": "Verified User from Ghana"
         },
         "reviewBody": "I withdraw my Delux earnings in USD to my local bank account. Payments arrive within 2 hours with no issues. Made over $500 in my first month!"
-      }
+    }
     },
     {
       "@type": "FAQPage",
