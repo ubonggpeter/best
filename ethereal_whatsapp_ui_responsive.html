@@ -141,7 +141,6 @@
 <body>
 
 <div class="container">
-
   <div class="header">
     <img src="https://yourdomain.com/ethereal-logo.jpg" alt="Group Logo">
     <h2>1️⃣ ETHEREAL MILLIONAIRES ⭐⭐💚💚💚</h2>
@@ -166,38 +165,72 @@
   <div class="footer-note">
     You can now send messages, audio, images, videos or create a vote poll 👇
   </div>
-
 </div>
 
-  <div class="input-bar">
-    <form action="index.html" method="GET" onsubmit="handleSubmit(event)" enctype="multipart/form-data">
-      <textarea name="message" placeholder="Type your message..." required></textarea>
+<div class="input-bar">
+  <form id="chatForm" enctype="multipart/form-data">
+    <textarea name="message" placeholder="Type your message..." required></textarea>
 
-      <div class="file-inputs">
-        <label>Send Audio: <input type="file" name="audio" accept="audio/*"></label>
-        <label>Send Image: <input type="file" name="image" accept="image/*"></label>
-        <label>Send Video: <input type="file" name="video" accept="video/*"></label>
-      </div>
+    <div class="file-inputs">
+      <label>Send Audio: <input type="file" name="audio" accept="audio/*"></label>
+      <label>Send Image: <input type="file" name="image" accept="image/*"></label>
+      <label>Send Video: <input type="file" name="video" accept="video/*"></label>
+    </div>
 
-      <label style="color:#ccc;">Vote Poll (optional):</label>
-      <input type="text" name="poll_question" placeholder="Poll Question">
-      <input type="text" name="option1" placeholder="Option 1">
-      <input type="text" name="option2" placeholder="Option 2">
-      <input type="text" name="option3" placeholder="Option 3">
-      <input type="text" name="option4" placeholder="Option 4">
+    <label style="color:#ccc;">Vote Poll (optional):</label>
+    <input type="text" name="poll_question" placeholder="Poll Question">
+    <input type="text" name="option1" placeholder="Option 1">
+    <input type="text" name="option2" placeholder="Option 2">
+    <input type="text" name="option3" placeholder="Option 3">
+    <input type="text" name="option4" placeholder="Option 4">
 
-      <button type="submit">Send</button>
-    </form>
-  </div>
+    <button type="submit">Send</button>
+  </form>
+</div>
 
 <script>
-  function handleSubmit(e) {
+  document.getElementById('chatForm').addEventListener('submit', function(e) {
     e.preventDefault();
     const form = e.target;
     const message = form.message.value;
-    localStorage.setItem('submittedMessage', message);
-    window.location.href = "index.html";
-  }
+
+    // Poll data
+    localStorage.setItem('pollQuestion', form.poll_question.value);
+    localStorage.setItem('pollOption1', form.option1.value);
+    localStorage.setItem('pollOption2', form.option2.value);
+    localStorage.setItem('pollOption3', form.option3.value);
+    localStorage.setItem('pollOption4', form.option4.value);
+
+    const reader = new FileReader();
+    const audioFile = form.audio.files[0];
+    const imageFile = form.image.files[0];
+
+    function goToIndex() {
+      localStorage.setItem('submittedMessage', message);
+      window.location.href = "index.html";
+    }
+
+    if (imageFile) {
+      const imgReader = new FileReader();
+      imgReader.onload = function(e) {
+        localStorage.setItem('submittedImage', e.target.result);
+        if (!audioFile) goToIndex();
+      };
+      imgReader.readAsDataURL(imageFile);
+    }
+
+    if (audioFile) {
+      reader.onload = function(e) {
+        localStorage.setItem('submittedAudio', e.target.result);
+        goToIndex();
+      };
+      reader.readAsDataURL(audioFile);
+    }
+
+    if (!imageFile && !audioFile) {
+      goToIndex();
+    }
+  });
 </script>
 
 </body>
