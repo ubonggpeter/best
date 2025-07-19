@@ -1,39 +1,54 @@
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Submitted Message</title>
+  <title>Chat Messages</title>
   <style>
     body {
       font-family: 'Segoe UI', sans-serif;
       background-color: #0e0e0e;
       color: #fff;
       padding: 2em;
-      text-align: center;
     }
     h1 {
+      text-align: center;
       color: #00ff99;
     }
-    .message-box {
+    .chat-container {
+      max-width: 600px;
+      margin: auto;
+    }
+    .chat-message {
       background-color: #1f1f1f;
-      padding: 20px;
+      padding: 15px;
       border-radius: 10px;
-      margin: 20px auto;
-      width: 90%;
-      max-width: 500px;
-      text-align: left;
-    }
-    .message-box h3 {
-      color: #ccc;
-      margin-bottom: 10px;
-    }
-    .message-box p {
+      margin: 10px 0;
       color: #eee;
     }
+    .chat-message span {
+      display: block;
+      font-size: 12px;
+      color: #888;
+      margin-bottom: 5px;
+    }
+    .chat-message img, .chat-message audio, .chat-message video {
+      max-width: 100%;
+      margin-top: 10px;
+      border-radius: 8px;
+    }
+    .chat-message .poll {
+      margin-top: 10px;
+      padding: 10px;
+      background: #2a2a2a;
+      border-radius: 8px;
+    }
+    .chat-message .poll p {
+      margin: 0 0 5px;
+    }
     .back-link {
-      display: inline-block;
+      display: block;
+      text-align: center;
       margin-top: 30px;
       color: #00e676;
       text-decoration: none;
@@ -43,18 +58,79 @@
 </head>
 <body>
 
-  <h1>🟢 Message Sent</h1>
-  <div class="message-box" id="output">
-    <h3>Message Content:</h3>
-    <p id="submittedText">Loading...</p>
+  <h1>📩 Submitted Messages</h1>
+  <div class="chat-container" id="chatArea">
+    <!-- Messages will appear here -->
   </div>
 
-  <a class="back-link" href="ethereal_whatsapp_ui_responsive.html">⬅ Back to Chat</a>
+  <a class="back-link" href="ethereal_whatsapp_ui_full.html">⬅ Back to Chat</a>
 
   <script>
-    // Display message passed through localStorage (simple simulation)
+    const chatArea = document.getElementById('chatArea');
     const message = localStorage.getItem('submittedMessage');
-    document.getElementById('submittedText').textContent = message || "No message was found.";
+
+    const chatHistory = JSON.parse(localStorage.getItem('chatHistory')) || [];
+
+    if (message) {
+      const entry = {
+        text: message,
+        timestamp: new Date().toLocaleString(),
+        image: localStorage.getItem('submittedImage'),
+        audio: localStorage.getItem('submittedAudio'),
+        poll: {
+          question: localStorage.getItem('pollQuestion'),
+          options: [
+            localStorage.getItem('pollOption1'),
+            localStorage.getItem('pollOption2'),
+            localStorage.getItem('pollOption3'),
+            localStorage.getItem('pollOption4')
+          ].filter(Boolean)
+        }
+      };
+      chatHistory.push(entry);
+      localStorage.setItem('chatHistory', JSON.stringify(chatHistory));
+
+      // Clear after saving
+      localStorage.removeItem('submittedMessage');
+      localStorage.removeItem('submittedImage');
+      localStorage.removeItem('submittedAudio');
+      localStorage.removeItem('pollQuestion');
+      localStorage.removeItem('pollOption1');
+      localStorage.removeItem('pollOption2');
+      localStorage.removeItem('pollOption3');
+      localStorage.removeItem('pollOption4');
+    }
+
+    // Render all messages
+    chatHistory.forEach(msg => {
+      const msgDiv = document.createElement('div');
+      msgDiv.className = 'chat-message';
+      msgDiv.innerHTML = `<span>${msg.timestamp}</span>${msg.text || ''}`;
+
+      if (msg.image) {
+        const img = document.createElement('img');
+        img.src = msg.image;
+        msgDiv.appendChild(img);
+      }
+
+      if (msg.audio) {
+        const audio = document.createElement('audio');
+        audio.controls = true;
+        audio.src = msg.audio;
+        msgDiv.appendChild(audio);
+      }
+
+      if (msg.poll && msg.poll.question && msg.poll.options.length > 0) {
+        const pollDiv = document.createElement('div');
+        pollDiv.className = 'poll';
+        pollDiv.innerHTML = `<p><strong>${msg.poll.question}</strong></p>` +
+          msg.poll.options.map(opt => `<p>🔘 ${opt}</p>`).join('');
+        msgDiv.appendChild(pollDiv);
+      }
+
+      chatArea.appendChild(msgDiv);
+    });
   </script>
+
 </body>
 </html>
